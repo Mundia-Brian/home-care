@@ -156,7 +156,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 bg-gradient-to-br from-primary to-chart-2 px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-gradient-to-br from-primary via-chart-1 to-chart-2 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center text-white">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Bring Care Home?

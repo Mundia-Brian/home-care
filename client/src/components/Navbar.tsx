@@ -20,10 +20,12 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 gap-4">
           <Link href="/" data-testid="link-home">
-            <div className="flex items-center gap-2 cursor-pointer">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-chart-2 rounded-md flex items-center justify-center">
-                <div className="w-6 h-6 border-2 border-white rotate-45"></div>
-              </div>
+            <div className="flex items-center gap-3 cursor-pointer">
+              <img 
+                src="/logo.jpg" 
+                alt="Rohi Homecare Logo" 
+                className="w-12 h-12 rounded-lg object-cover shadow-md"
+              />
               <div className="flex flex-col">
                 <span className="text-lg font-bold text-foreground">Rohi Homecare</span>
                 <span className="text-xs text-muted-foreground hidden sm:block">Compassionate Care, Right at Home</span>

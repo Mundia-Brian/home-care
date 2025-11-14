@@ -7,10 +7,12 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-chart-2 rounded-md flex items-center justify-center">
-                <div className="w-6 h-6 border-2 border-white rotate-45"></div>
-              </div>
+            <div className="flex items-center gap-3 mb-4">
+              <img 
+                src="/logo.jpg" 
+                alt="Rohi Homecare Logo" 
+                className="w-10 h-10 rounded-lg object-cover shadow-md"
+              />
               <span className="text-lg font-bold">Rohi Homecare</span>
             </div>
             <p className="text-sm text-muted-foreground mb-4">
