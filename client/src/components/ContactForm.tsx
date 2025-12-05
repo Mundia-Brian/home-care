@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Download, MessageCircle } from "lucide-react";
+import jsPDF from "jspdf";
 
 interface ServicePricing {
   daily?: number;
@@ -129,17 +130,31 @@ export default function ContactForm() {
     const date = new Date().toLocaleDateString();
     const validUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString();
     
-    const content = `ROHI HOMECARE - SERVICE QUOTE\n\nQuote ID: ${quoteId}\nDate: ${date}\nValid Until: ${validUntil}\n\nCUSTOMER DETAILS:\nName: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\n\nSERVICE REQUESTED:\n${service?.name || data.service}\n\nPRICING:\n${pricingText}\n\n${data.duration ? `Duration: ${data.duration}\n\n` : ''}ADDITIONAL NOTES:\n${data.message}\n\nCONTACT US:\nPhone: 0111 726 508\nEmail: info@rohihomecare.co.ke\nWhatsApp: https://wa.me/254111726508\n\nThank you for choosing Rohi Homecare!`;
-    
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Rohi_Homecare_Quote_${quoteId}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    const pdf = new jsPDF();
+    pdf.setFontSize(20);
+    pdf.text('ROHI HOMECARE - SERVICE QUOTE', 20, 30);
+    pdf.setFontSize(12);
+    pdf.text(`Quote ID: ${quoteId}`, 20, 50);
+    pdf.text(`Date: ${date}`, 20, 60);
+    pdf.text(`Valid Until: ${validUntil}`, 20, 70);
+    pdf.text('CUSTOMER DETAILS:', 20, 90);
+    pdf.text(`Name: ${data.name}`, 20, 100);
+    pdf.text(`Email: ${data.email}`, 20, 110);
+    pdf.text(`Phone: ${data.phone}`, 20, 120);
+    pdf.text('SERVICE REQUESTED:', 20, 140);
+    pdf.text(service?.name || data.service, 20, 150);
+    pdf.text('PRICING:', 20, 170);
+    pdf.text(pricingText, 20, 180);
+    if (data.duration) {
+      pdf.text(`Duration: ${data.duration}`, 20, 200);
+    }
+    pdf.text('ADDITIONAL NOTES:', 20, 220);
+    const splitMessage = pdf.splitTextToSize(data.message, 170);
+    pdf.text(splitMessage, 20, 230);
+    pdf.text('CONTACT US:', 20, 260);
+    pdf.text('Phone: 0111 726 508', 20, 270);
+    pdf.text('Email: info@rohihomecare.co.ke', 20, 280);
+    pdf.save(`Rohi_Homecare_Quote_${quoteId}.pdf`);
   };
 
   const sendToWhatsApp = (data: ContactFormData) => {
@@ -313,7 +328,7 @@ export default function ContactForm() {
               className="flex-1 hover-elevate"
             >
               <Download className="w-4 h-4 mr-2" />
-              Download Quote
+              Download PDF
             </Button>
             <Button 
               onClick={() => sendToWhatsApp(quote.customer)} 
