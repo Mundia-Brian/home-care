@@ -85,6 +85,32 @@ export default function Home() {
     <div>
       <Hero3D />
       
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-card">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Latest Updates</h2>
+            <p className="text-muted-foreground">
+              Stay connected with our healthcare community
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <div className="w-full max-w-lg">
+              <iframe 
+                src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3D122120647910554233%26id%3D61566627012288%26substory_index%3D1978060132679870&show_text=true&width=500" 
+                width="500" 
+                height="534" 
+                style={{border: 'none', overflow: 'hidden'}} 
+                scrolling="no"
+                frameBorder="0"
+                allowFullScreen 
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                title="Rohi Homecare Latest Updates"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+      
       <StatsCounter stats={stats} />
 
       <section className="py-20 px-4 sm:px-6 lg:px-8">
@@ -168,10 +194,12 @@ export default function Home() {
           <div className="flex justify-center mb-8">
             <div className="w-full max-w-lg">
               <iframe 
-                src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3D122120647910554233%26id%3D61566627012288%26substory_index%3D1978060132679870&show_text=true&width=500" 
+                src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0bPdptRd8wk8dbY3gME6KQAKhic216CpBxLKgBbu8USYWgG3Qs6ukJR8DHSm3Z8CVl%26id%3D61566627012288&show_text=true&width=500" 
                 width="500" 
-                height="534" 
+                height="250" 
                 style={{border: 'none', overflow: 'hidden'}} 
+                scrolling="no"
+                frameBorder="0"
                 allowFullScreen 
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                 title="Rohi Homecare Care in Action"

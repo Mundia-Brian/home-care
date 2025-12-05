@@ -1,7 +1,27 @@
 import { Link } from "wouter";
 import { MapPin, Phone, Mail, Facebook, Twitter, Instagram } from "lucide-react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function Footer() {
+  const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
+
+  const handleContactMethod = (method: string) => {
+    switch (method) {
+      case 'email':
+        window.open('mailto:brian@web-designs.store', '_blank');
+        break;
+      case 'website':
+        window.open('https://web-designs.store', '_blank');
+        break;
+      case 'whatsapp':
+        window.open('https://wa.me/254728817722', '_blank');
+        break;
+    }
+    setIsContactDialogOpen(false);
+  };
+
   return (
     <footer className="bg-card border-t mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -19,14 +39,8 @@ export default function Footer() {
               Compassionate Care, Right at Home. Professional nursing and caregiving services across Nairobi.
             </p>
             <div className="flex gap-2">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md hover-elevate active-elevate-2 border" data-testid="link-facebook">
+              <a href="https://www.facebook.com/p/Rohi-Homecare-61566627012288/" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md hover-elevate active-elevate-2 border" data-testid="link-facebook">
                 <Facebook className="w-4 h-4" />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md hover-elevate active-elevate-2 border" data-testid="link-twitter">
-                <Twitter className="w-4 h-4" />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md hover-elevate active-elevate-2 border" data-testid="link-instagram">
-                <Instagram className="w-4 h-4" />
               </a>
             </div>
           </div>
@@ -72,7 +86,46 @@ export default function Footer() {
 
         <div className="border-t mt-8 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © 2025 Rohi Healthcare Solutions LTD. All rights reserved. Licensed by NCK.
+            Created by{" "}
+            <Dialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen}>
+              <DialogTrigger asChild>
+                <button className="text-primary hover:underline cursor-pointer">
+                  brian@web-designs.store
+                </button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Choose contact method:</DialogTitle>
+                </DialogHeader>
+                <div className="flex flex-col gap-3 mt-4">
+                  <Button 
+                    onClick={() => handleContactMethod('email')}
+                    variant="outline"
+                    className="justify-start"
+                  >
+                    <Mail className="w-4 h-4 mr-2" />
+                    1. Email
+                  </Button>
+                  <Button 
+                    onClick={() => handleContactMethod('website')}
+                    variant="outline"
+                    className="justify-start"
+                  >
+                    <span className="w-4 h-4 mr-2">🌐</span>
+                    2. Website
+                  </Button>
+                  <Button 
+                    onClick={() => handleContactMethod('whatsapp')}
+                    variant="outline"
+                    className="justify-start"
+                  >
+                    <Phone className="w-4 h-4 mr-2" />
+                    3. WhatsApp (+254728817722)
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+            {" "}| All Rights Reserved
           </p>
         </div>
       </div>
