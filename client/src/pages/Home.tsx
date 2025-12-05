@@ -195,17 +195,19 @@ export default function Home() {
             </p>
           </div>
           <div className="flex justify-center">
-            <iframe 
-              src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0bPdptRd8wk8dbY3gME6KQAKhic216CpBxLKgBbu8USYWgG3Qs6ukJR8DHSm3Z8CVl%26id%3D61566627012288&show_text=true&width=500" 
-              width="500" 
-              height="250" 
-              style={{border: 'none', overflow: 'hidden'}} 
-              scrolling="no"
-              frameBorder="0"
-              allowFullScreen 
-              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-              title="Rohi Homecare Care in Action"
-            />
+            <div className="w-full max-w-lg">
+              <iframe 
+                src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0bPdptRd8wk8dbY3gME6KQAKhic216CpBxLKgBbu8USYWgG3Qs6ukJR8DHSm3Z8CVl%26id%3D61566627012288&show_text=true&width=500" 
+                width="100%" 
+                height="250" 
+                style={{border: 'none', overflow: 'hidden'}} 
+                scrolling="no"
+                frameBorder="0"
+                allowFullScreen 
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                title="Rohi Homecare Care in Action"
+              />
+            </div>
           </div>
         </div>
       </section>

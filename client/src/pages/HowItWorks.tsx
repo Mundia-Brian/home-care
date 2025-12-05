@@ -93,17 +93,19 @@ export default function HowItWorks() {
                 Real stories and updates from our healthcare community
               </p>
               <div className="flex justify-center">
-                <iframe 
-                  src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3D122120647910554233%26id%3D61566627012288%26substory_index%3D1978060132679870&show_text=true&width=500" 
-                  width="500" 
-                  height="250" 
-                  style={{border: 'none', overflow: 'hidden'}} 
-                  scrolling="no"
-                  frameBorder="0"
-                  allowFullScreen 
-                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                  title="Rohi Homecare Care in Action"
-                />
+                <div className="w-full max-w-lg">
+                  <iframe 
+                    src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3D122120647910554233%26id%3D61566627012288%26substory_index%3D1978060132679870&show_text=true&width=500" 
+                    width="100%" 
+                    height="250" 
+                    style={{border: 'none', overflow: 'hidden'}} 
+                    scrolling="no"
+                    frameBorder="0"
+                    allowFullScreen 
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                    title="Rohi Homecare Care in Action"
+                  />
+                </div>
               </div>
             </div>
           </Card>

@@ -127,6 +127,8 @@ export default function Contact() {
                 width="100%" 
                 height="400" 
                 style={{border: 'none', overflow: 'hidden'}} 
+                scrolling="no"
+                frameBorder="0"
                 allowFullScreen 
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                 title="Rohi Homecare Facebook Post"
