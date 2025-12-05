@@ -1,12 +1,14 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LucideIcon } from "lucide-react";
+import { Link } from "wouter";
 
 interface TimelineStep {
   icon: LucideIcon;
   title: string;
   description: string;
   cta?: string;
+  ctaLink?: string;
 }
 
 interface TimelineProps {
@@ -35,9 +37,17 @@ export default function Timeline({ steps }: TimelineProps) {
             </div>
             <p className="text-muted-foreground mb-4">{step.description}</p>
             {step.cta && (
-              <Button variant="outline" size="sm" className="hover-elevate active-elevate-2" data-testid={`button-step-${index}`}>
-                {step.cta}
-              </Button>
+              step.ctaLink ? (
+                <Link href={step.ctaLink}>
+                  <Button variant="outline" size="sm" className="hover-elevate active-elevate-2" data-testid={`button-step-${index}`}>
+                    {step.cta}
+                  </Button>
+                </Link>
+              ) : (
+                <Button variant="outline" size="sm" className="hover-elevate active-elevate-2" data-testid={`button-step-${index}`}>
+                  {step.cta}
+                </Button>
+              )
             )}
           </Card>
         </div>

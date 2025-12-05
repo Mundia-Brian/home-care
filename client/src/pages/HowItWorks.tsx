@@ -2,6 +2,7 @@ import Timeline from "@/components/Timeline";
 import FAQAccordion from "@/components/FAQAccordion";
 import { Phone, Home, ClipboardCheck, Play, TrendingUp, Video } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Link } from "wouter";
 
 export default function HowItWorks() {
   const steps = [
@@ -9,7 +10,8 @@ export default function HowItWorks() {
       icon: Phone,
       title: "Initial Contact",
       description: "Reach out to us via phone call, WhatsApp, or our online contact form. Our friendly team is available 24/7 to answer your questions and understand your care needs.",
-      cta: "Start Here"
+      cta: "Start Here",
+      ctaLink: "/contact"
     },
     {
       icon: Home,
@@ -88,40 +90,11 @@ export default function HowItWorks() {
               <Video className="w-16 h-16 text-primary mx-auto mb-6" />
               <h2 className="text-2xl md:text-3xl font-bold mb-4">See Our Care in Action</h2>
               <p className="text-muted-foreground mb-6">
-                Watch how our caregivers and nurses provide compassionate, professional care that makes a real difference in patients' lives
+                Real stories and updates from our healthcare community
               </p>
-              <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-                <p className="text-muted-foreground">Video placeholder - A Day in the Life of Our Caregivers</p>
-              </div>
-            </div>
-          </Card>
-        </section>
-
-        <section className="mb-20">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Our Community Updates</h2>
-              <p className="text-muted-foreground">
-                Stay connected with real stories and updates from our healthcare community
-              </p>
-            </div>
-            <div className="grid md:grid-cols-2 gap-8 items-start">
               <div className="flex justify-center">
                 <iframe 
                   src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3D122120647910554233%26id%3D61566627012288%26substory_index%3D1978060132679870&show_text=true&width=500" 
-                  width="500" 
-                  height="534" 
-                  style={{border: 'none', overflow: 'hidden'}} 
-                  scrolling="no"
-                  frameBorder="0"
-                  allowFullScreen 
-                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                  title="Rohi Homecare Updates"
-                />
-              </div>
-              <div className="flex justify-center">
-                <iframe 
-                  src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0bPdptRd8wk8dbY3gME6KQAKhic216CpBxLKgBbu8USYWgG3Qs6ukJR8DHSm3Z8CVl%26id%3D61566627012288&show_text=true&width=500" 
                   width="500" 
                   height="250" 
                   style={{border: 'none', overflow: 'hidden'}} 
@@ -133,22 +106,10 @@ export default function HowItWorks() {
                 />
               </div>
             </div>
-            <div className="text-center mt-8">
-              <p className="text-muted-foreground mb-4">Follow us for more updates and health tips</p>
-              <a 
-                href="https://www.facebook.com/p/Rohi-Homecare-61566627012288/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-                Visit our Facebook Page
-              </a>
-            </div>
-          </div>
+          </Card>
         </section>
+
+
 
         <section>
           <h2 className="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
