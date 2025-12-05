@@ -156,6 +156,31 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="py-20 bg-card px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Stay Connected</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Follow us on social media for health tips, updates, and community stories
+            </p>
+          </div>
+
+          <div className="flex justify-center">
+            <div className="w-full max-w-lg">
+              <iframe 
+                src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0bPdptRd8wk8dbY3gME6KQAKhic216CpBxLKgBbu8USYWgG3Qs6ukJR8DHSm3Z8CVl%26id%3D61566627012288&show_text=true&width=500" 
+                width="100%" 
+                height="497" 
+                style={{border: 'none', overflow: 'hidden'}} 
+                allowFullScreen 
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                title="Rohi Homecare Facebook Updates"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 bg-gradient-to-br from-primary via-chart-1 to-chart-2 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center text-white">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">

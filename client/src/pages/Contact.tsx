@@ -96,17 +96,41 @@ export default function Contact() {
           </div>
         </div>
 
-        <div className="mt-16">
+        <div className="mt-16 grid lg:grid-cols-2 gap-8">
           <Card className="p-8">
             <h2 className="text-2xl font-bold mb-4 text-center">Find Us on the Map</h2>
             <p className="text-center text-muted-foreground mb-6">
-              Conveniently located in Ongata Rongai for quick access across Nairobi
+              Conveniently located at Macjo Arcade, Ongata Rongai
             </p>
-            <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="w-12 h-12 text-primary mx-auto mb-2" />
-                <p className="text-muted-foreground">Interactive Map - Ongata Rongai, Kenya</p>
-              </div>
+            <div className="rounded-lg overflow-hidden">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.6336141296824!2d36.748114244163276!3d-1.3962948949673808!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f05c4e5889dfb%3A0xc50bbeb94af666ee!2sMacjo%20Arcade!5e0!3m2!1sen!2ske!4v1764923171543!5m2!1sen!2ske" 
+                width="100%" 
+                height="350" 
+                style={{border: 0}} 
+                allowFullScreen 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Rohi Homecare Location - Macjo Arcade"
+              />
+            </div>
+          </Card>
+
+          <Card className="p-8">
+            <h2 className="text-2xl font-bold mb-4 text-center">Follow Our Updates</h2>
+            <p className="text-center text-muted-foreground mb-6">
+              Stay connected with our latest news and health tips
+            </p>
+            <div className="rounded-lg overflow-hidden">
+              <iframe 
+                src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0bPdptRd8wk8dbY3gME6KQAKhic216CpBxLKgBbu8USYWgG3Qs6ukJR8DHSm3Z8CVl%26id%3D61566627012288&show_text=true&width=500" 
+                width="100%" 
+                height="400" 
+                style={{border: 'none', overflow: 'hidden'}} 
+                allowFullScreen 
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                title="Rohi Homecare Facebook Post"
+              />
             </div>
           </Card>
         </div>

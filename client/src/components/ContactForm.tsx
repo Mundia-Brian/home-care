@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
   Form,
   FormControl,
@@ -20,19 +22,65 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Download, MessageCircle } from "lucide-react";
+
+interface ServicePricing {
+  daily?: number;
+  monthly?: number;
+  session?: number;
+  visit?: number;
+  service?: number;
+  varies?: boolean;
+  name: string;
+}
+
+interface Quote {
+  id: string;
+  date: string;
+  customer: {
+    name: string;
+    email: string;
+    phone: string;
+  };
+  service: string;
+  pricing: ServicePricing;
+  duration?: string;
+  message: string;
+  validUntil: string;
+}
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
   service: z.string().min(1, "Please select a service"),
+  duration: z.string().max(100).optional(),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
+const servicePricing: Record<string, ServicePricing> = {
+  "bronze-plan": { daily: 1500, monthly: 40500, name: "Bronze Plan - Basic Care" },
+  "silver-plan": { daily: 2500, monthly: 67500, name: "Silver Plan - Standard Care" },
+  "gold-plan": { daily: 4500, monthly: 121500, name: "Gold Plan - Nursing Care" },
+  "physiotherapy": { session: 3000, name: "Physiotherapy at Home" },
+  "occupational-therapy": { session: 2500, name: "Occupational Therapy" },
+  "medical-equipment": { varies: true, name: "Medical Equipment Rental" },
+  "nutrition-consultation": { session: 2000, name: "Nutrition Consultation" },
+  "counseling": { session: 2500, name: "Professional Counseling" },
+  "doctor-visits": { visit: 5000, name: "Doctor Home Visits" },
+  "clinical-officer": { visit: 3500, name: "Clinical Officer Visits" },
+  "lab-collection": { service: 1500, name: "Lab Sample Collection" },
+  "massage": { session: 2000, name: "Professional Massage" },
+  "ambulance": { varies: true, name: "Ambulance Services" },
+  "other": { varies: true, name: "Other Services" }
+};
+
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [quote, setQuote] = useState<Quote | null>(null);
+  const [showQuote, setShowQuote] = useState(false);
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -41,23 +89,110 @@ export default function ContactForm() {
       email: "",
       phone: "",
       service: "",
+      duration: "",
       message: "",
     },
   });
 
+  const generateQuote = (data: ContactFormData): Quote | null => {
+    const service = servicePricing[data.service];
+    if (!service) return null;
+
+    const quote: Quote = {
+      id: `Q${Date.now()}`,
+      date: new Date().toLocaleDateString(),
+      customer: {
+        name: data.name,
+        email: data.email,
+        phone: data.phone
+      },
+      service: service.name,
+      pricing: service,
+      duration: data.duration,
+      message: data.message,
+      validUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString()
+    };
+
+    return quote;
+  };
+
+  const downloadQuote = (quote: Quote) => {
+    const sanitizedName = quote.customer.name.replace(/[<>"'&]/g, '');
+    const sanitizedService = quote.service.replace(/[<>"'&]/g, '');
+    const sanitizedMessage = quote.message.replace(/[<>"'&]/g, '');
+    const sanitizedDuration = quote.duration?.replace(/[<>"'&]/g, '') || '';
+    
+    const quoteText = `
+ROHI HOMECARE - SERVICE QUOTE
+================================
+
+Quote ID: ${quote.id}
+Date: ${quote.date}
+Valid Until: ${quote.validUntil}
+
+CUSTOMER DETAILS:
+Name: ${sanitizedName}
+Email: ${quote.customer.email}
+Phone: ${quote.customer.phone}
+
+SERVICE REQUESTED:
+${sanitizedService}
+
+PRICING:
+${quote.pricing.varies ? 'Pricing varies - Contact for details' : 
+  quote.pricing.daily ? `Daily: KES ${quote.pricing.daily.toLocaleString()}\nMonthly: KES ${quote.pricing.monthly?.toLocaleString() || 'N/A'}` :
+  quote.pricing.session ? `Per Session: KES ${quote.pricing.session.toLocaleString()}` :
+  quote.pricing.visit ? `Per Visit: KES ${quote.pricing.visit.toLocaleString()}` :
+  quote.pricing.service ? `Service Fee: KES ${quote.pricing.service.toLocaleString()}` : 'Contact for pricing'}
+
+${sanitizedDuration ? `Duration: ${sanitizedDuration}` : ''}
+
+ADDITIONAL NOTES:
+${sanitizedMessage}
+
+CONTACT US:
+Phone: 0111 726 508
+Email: info@rohihomecare.co.ke
+WhatsApp: https://wa.me/254111726508
+
+Thank you for choosing Rohi Homecare!
+    `;
+
+    const blob = new Blob([quoteText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Rohi_Homecare_Quote_${quote.id}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const sendToWhatsApp = (quote: Quote) => {
+    const sanitizedName = quote.customer.name.replace(/[<>"'&]/g, '');
+    const sanitizedService = quote.service.replace(/[<>"'&]/g, '');
+    const message = `Hi! I received a quote from Rohi Homecare:\n\nQuote ID: ${quote.id}\nService: ${sanitizedService}\nCustomer: ${sanitizedName}\n\nI'd like to proceed with this service. Please contact me for next steps.`;
+    const whatsappUrl = `https://wa.me/254111726508?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
     try {
+      // Generate quote
+      const generatedQuote = generateQuote(data);
+      setQuote(generatedQuote);
+      setShowQuote(true);
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, quote: generatedQuote }),
       });
       
       if (!response.ok) throw new Error("Failed to send");
       
-      form.reset();
-      alert("Thank you! We'll contact you soon.");
     } catch (error) {
       alert("Failed to send message. Please try again.");
     } finally {
@@ -123,13 +258,32 @@ export default function ContactForm() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="home-nursing">Home Nursing Care</SelectItem>
-                  <SelectItem value="caregiver">Caregiver Services</SelectItem>
-                  <SelectItem value="medical-equipment">Medical Equipment</SelectItem>
-                  <SelectItem value="physiotherapy">Physiotherapy</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
+                  {Object.entries(servicePricing).map(([key, service]) => (
+                    <SelectItem key={key} value={key}>
+                      {service.name}
+                      {service.varies ? '' : 
+                       service.daily ? ` (KES ${service.daily.toLocaleString()}/day)` :
+                       service.session ? ` (KES ${service.session.toLocaleString()}/session)` :
+                       service.visit ? ` (KES ${service.visit.toLocaleString()}/visit)` :
+                       service.service ? ` (KES ${service.service.toLocaleString()})` : ''}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="duration"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Duration/Frequency (Optional)</FormLabel>
+              <FormControl>
+                <Input placeholder="e.g., 2 weeks, 3 sessions per week, monthly" {...field} data-testid="input-duration" />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -155,9 +309,52 @@ export default function ContactForm() {
         />
 
         <Button type="submit" className="w-full hover-elevate active-elevate-2" disabled={isSubmitting} data-testid="button-submit">
-          {isSubmitting ? "Sending..." : "Send Message"}
+          {isSubmitting ? "Generating Quote..." : "Get Instant Quote"}
         </Button>
       </form>
+
+      {showQuote && quote && (
+        <Card className="mt-6 p-6 bg-green-50 border-green-200">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-green-800">Your Quote is Ready!</h3>
+            <Badge className="bg-green-100 text-green-800">Quote #{quote.id}</Badge>
+          </div>
+          
+          <div className="space-y-3 mb-6">
+            <div>
+              <p className="font-medium">{quote.service}</p>
+              <p className="text-sm text-muted-foreground">
+                {quote.pricing.varies ? 'Contact us for custom pricing' : 
+                 quote.pricing.daily ? `KES ${quote.pricing.daily.toLocaleString()}/day or KES ${quote.pricing.monthly?.toLocaleString() || 'N/A'}/month` :
+                 quote.pricing.session ? `KES ${quote.pricing.session.toLocaleString()}/session` :
+                 quote.pricing.visit ? `KES ${quote.pricing.visit.toLocaleString()}/visit` :
+                 quote.pricing.service ? `KES ${quote.pricing.service.toLocaleString()}` : 'Contact for pricing'}
+              </p>
+            </div>
+            <p className="text-sm text-muted-foreground">Valid until: {quote.validUntil}</p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button 
+              onClick={() => downloadQuote(quote)} 
+              variant="outline" 
+              className="flex-1 hover-elevate"
+              data-testid="button-download-quote"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Download Quote
+            </Button>
+            <Button 
+              onClick={() => sendToWhatsApp(quote)} 
+              className="flex-1 bg-green-600 hover:bg-green-700 hover-elevate"
+              data-testid="button-whatsapp-quote"
+            >
+              <MessageCircle className="w-4 h-4 mr-2" />
+              Send to WhatsApp
+            </Button>
+          </div>
+        </Card>
+      )}
     </Form>
   );
 }
