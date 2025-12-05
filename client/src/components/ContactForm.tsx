@@ -131,29 +131,108 @@ export default function ContactForm() {
     const validUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString();
     
     const pdf = new jsPDF();
-    pdf.setFontSize(20);
-    pdf.text('ROHI HOMECARE - SERVICE QUOTE', 20, 30);
+    
+    // Header with gradient-like effect using rectangles
+    pdf.setFillColor(41, 128, 185); // Primary blue
+    pdf.rect(0, 0, 210, 45, 'F');
+    pdf.setFillColor(52, 152, 219); // Lighter blue
+    pdf.rect(0, 35, 210, 10, 'F');
+    
+    // Company name in white
+    pdf.setTextColor(255, 255, 255);
+    pdf.setFontSize(24);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('ROHI HOMECARE', 20, 25);
+    pdf.setFontSize(14);
+    pdf.setFont('helvetica', 'normal');
+    pdf.text('Compassionate Care, Right at Home', 20, 35);
+    
+    // Quote title with accent color
+    pdf.setTextColor(231, 76, 60); // Red accent
+    pdf.setFontSize(18);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('SERVICE QUOTE', 140, 25);
+    
+    // Reset text color to dark
+    pdf.setTextColor(44, 62, 80);
+    
+    // Quote details box
+    pdf.setFillColor(236, 240, 241); // Light gray background
+    pdf.rect(15, 55, 180, 25, 'F');
+    pdf.setDrawColor(189, 195, 199);
+    pdf.rect(15, 55, 180, 25, 'S');
+    
     pdf.setFontSize(12);
-    pdf.text(`Quote ID: ${quoteId}`, 20, 50);
-    pdf.text(`Date: ${date}`, 20, 60);
-    pdf.text(`Valid Until: ${validUntil}`, 20, 70);
-    pdf.text('CUSTOMER DETAILS:', 20, 90);
-    pdf.text(`Name: ${data.name}`, 20, 100);
-    pdf.text(`Email: ${data.email}`, 20, 110);
-    pdf.text(`Phone: ${data.phone}`, 20, 120);
-    pdf.text('SERVICE REQUESTED:', 20, 140);
-    pdf.text(service?.name || data.service, 20, 150);
-    pdf.text('PRICING:', 20, 170);
-    pdf.text(pricingText, 20, 180);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text(`Quote ID: ${quoteId}`, 20, 65);
+    pdf.text(`Date: ${date}`, 20, 72);
+    pdf.text(`Valid Until: ${validUntil}`, 120, 65);
+    
+    // Customer section with colored header
+    pdf.setFillColor(46, 204, 113); // Green
+    pdf.rect(15, 90, 180, 8, 'F');
+    pdf.setTextColor(255, 255, 255);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('CUSTOMER DETAILS', 20, 96);
+    
+    pdf.setTextColor(44, 62, 80);
+    pdf.setFont('helvetica', 'normal');
+    pdf.text(`Name: ${data.name}`, 20, 108);
+    pdf.text(`Email: ${data.email}`, 20, 118);
+    pdf.text(`Phone: ${data.phone}`, 20, 128);
+    
+    // Service section with colored header
+    pdf.setFillColor(155, 89, 182); // Purple
+    pdf.rect(15, 140, 180, 8, 'F');
+    pdf.setTextColor(255, 255, 255);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('SERVICE REQUESTED', 20, 146);
+    
+    pdf.setTextColor(44, 62, 80);
+    pdf.setFont('helvetica', 'normal');
+    pdf.text(service?.name || data.service, 20, 158);
+    
+    // Pricing section with highlight
+    pdf.setFillColor(241, 196, 15); // Yellow/Gold
+    pdf.rect(15, 170, 180, 8, 'F');
+    pdf.setTextColor(44, 62, 80);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('PRICING', 20, 176);
+    
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(14);
+    pdf.setTextColor(231, 76, 60); // Red for price emphasis
+    pdf.text(pricingText, 20, 188);
+    
+    pdf.setTextColor(44, 62, 80);
+    pdf.setFontSize(12);
     if (data.duration) {
       pdf.text(`Duration: ${data.duration}`, 20, 200);
     }
-    pdf.text('ADDITIONAL NOTES:', 20, 220);
+    
+    // Notes section
+    pdf.setFillColor(52, 152, 219); // Blue
+    pdf.rect(15, 215, 180, 8, 'F');
+    pdf.setTextColor(255, 255, 255);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('ADDITIONAL NOTES', 20, 221);
+    
+    pdf.setTextColor(44, 62, 80);
+    pdf.setFont('helvetica', 'normal');
     const splitMessage = pdf.splitTextToSize(data.message, 170);
-    pdf.text(splitMessage, 20, 230);
-    pdf.text('CONTACT US:', 20, 260);
-    pdf.text('Phone: 0111 726 508', 20, 270);
-    pdf.text('Email: info@rohihomecare.co.ke', 20, 280);
+    pdf.text(splitMessage, 20, 233);
+    
+    // Footer with contact info
+    pdf.setFillColor(44, 62, 80); // Dark footer
+    pdf.rect(0, 270, 210, 27, 'F');
+    pdf.setTextColor(255, 255, 255);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('CONTACT US', 20, 280);
+    pdf.setFont('helvetica', 'normal');
+    pdf.text('Phone: 0111 726 508', 20, 288);
+    pdf.text('Email: info@rohihomecare.co.ke', 100, 288);
+    pdf.text('Licensed by NCK | Available 24/7', 20, 295);
+    
     pdf.save(`Rohi_Homecare_Quote_${quoteId}.pdf`);
   };
 
